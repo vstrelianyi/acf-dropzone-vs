@@ -1,37 +1,37 @@
 {
-  "name": "mcguffin/acf-dropzone",
-  "description": "Drag and drop file upload for ACF-Fields.",
-  "license": "GPL-3.0-or-later",
-  "keywords": [
-    "ACF",
-    "Upload",
-	"Dropzone",
-	"WordPress",
-	"Plugin"
-  ],
-  "homepage": "https://github.com/mcguffin/acf-dropzone",
-  "type": "wordpress-plugin",
-  "require": {
-	"composer/installers": "~1.2",
-    "php": ">=5.6.0"
-  },
-  "require-dev": {
-    "squizlabs/php_codesniffer": "*",
-    "wp-coding-standards/wpcs": "*",
-    "phpcompatibility/php-compatibility": "*",
-	"pheromone/phpcs-security-audit":"*"
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "[ -f vendor/bin/phpcs ] && \"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/pheromone/phpcs-security-audit || true"
-    ],
-    "post-update-cmd": [
-      "[ -f vendor/bin/phpcs ] && \"vendor/bin/phpcs\" --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/pheromone/phpcs-security-audit || true"
-    ]
-  },
-  "config": {
-    "allow-plugins": {
-      "composer/installers": true
-    }
+	"name": "mcguffin/acf-dropzone",
+	"description": "Drag and drop file upload for ACF-Fields.",
+	"license": "GPL-3.0-or-later",
+	"keywords": [
+	  "ACF",
+	  "Upload",
+	  "Dropzone",
+	  "WordPress",
+	  "Plugin"
+	],
+	"homepage": "https://github.com/mcguffin/acf-dropzone",
+	"type": "wordpress-plugin",
+	"require": {
+	  "composer/installers": "~1.2",
+	  "php": ">=5.6.0"
+	},
+	"require-dev": {
+	  "squizlabs/php_codesniffer": "*",
+	  "wp-coding-standards/wpcs": "*",
+	  "phpcompatibility/php-compatibility": "*",
+	  "pheromone/phpcs-security-audit": "*"
+	},
+	"scripts": {
+	  "post-install-cmd": [
+		"php -r \"if (file_exists('vendor/bin/phpcs')) { shell_exec('vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/pheromone/phpcs-security-audit'); }\""
+	  ],
+	  "post-update-cmd": [
+		"php -r \"if (file_exists('vendor/bin/phpcs')) { shell_exec('vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs,vendor/pheromone/phpcs-security-audit'); }\""
+	  ]
+	},
+	"config": {
+	  "allow-plugins": {
+		"composer/installers": true
+	  }
+	}
   }
-}

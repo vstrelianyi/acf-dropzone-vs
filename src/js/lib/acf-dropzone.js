@@ -6,7 +6,6 @@ import Progress from 'progress.js';
 
 module.exports = Backbone.View.extend({
 	initialize: function( opt ) {
-
 		const params = {};
 
 		// reset #28

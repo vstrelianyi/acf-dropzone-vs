@@ -15,6 +15,16 @@ module.exports = Backbone.View.extend({
 		this.field = opt.field;
 
 		params._acfuploader = this.field.get('key');
+
+		// --------------------------
+		// add custom data from the DOM
+		const imageInputElement = document.querySelector(`[data-key="${params._acfuploader}"]`);
+		const nearestAcfRow = imageInputElement.closest('.acf-row');
+		const dataId = nearestAcfRow ? nearestAcfRow.dataset.id : null;
+		params._acf_repeater_row = dataId;
+
+		// --------------------------
+
 		// #20 - add post_id and _acf_post_id
 		if ( document.querySelector( '#_acf_post_id' ) ) {
 			params._acf_post_id = document.querySelector( '#_acf_post_id' ).value;

@@ -12,6 +12,8 @@ const initFileDropzone = field => {
 		return;
 	}
 
+	// console.log( 'INIT');
+
 	parent = field.parent();
 
 	el = field.$('[data-uploader="basic"]').get(0)

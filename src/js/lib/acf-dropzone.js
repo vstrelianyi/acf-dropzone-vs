@@ -6,7 +6,7 @@ import Progress from 'progress.js';
 
 module.exports = Backbone.View.extend({
 	initialize: function( opt ) {
-		const params = {};
+		this.params = {};
 
 		// reset #28
 		this.el.removeAttribute('id')
@@ -14,22 +14,16 @@ module.exports = Backbone.View.extend({
 
 		this.field = opt.field;
 
-		params._acfuploader = this.field.get('key');
+		this.params._acfuploader = this.field.get('key');
 
-		// --------------------------
-		// add custom data from the DOM
-		const imageInputElement = document.querySelector(`[data-key="${params._acfuploader}"]`);
-		const nearestAcfRow = imageInputElement.closest('.acf-row');
-		const dataId = nearestAcfRow ? nearestAcfRow.dataset.id : null;
-		params._acf_repeater_row = dataId;
-
-		// --------------------------
+		// console.log('FIELD:', this.field);
+		// console.log('ELEMENT:', this.el );
 
 		// #20 - add post_id and _acf_post_id
 		if ( document.querySelector( '#_acf_post_id' ) ) {
-			params._acf_post_id = document.querySelector( '#_acf_post_id' ).value;
-			if ( parseInt( params._acf_post_id ) > 0 ) {
-				params.post_id = params._acf_post_id
+			this.params._acf_post_id = document.querySelector( '#_acf_post_id' ).value;
+			if ( parseInt( this.params._acf_post_id ) > 0 ) {
+				this.params.post_id = this.params._acf_post_id
 			}
 		}
 
@@ -41,7 +35,7 @@ module.exports = Backbone.View.extend({
 			uploader: {
 				dropzone:  this.el,
 				container: this.el,
-				params,
+				params: this.params,
 				error: ( msg, err, file ) => {
 					this.fileUploadError( this.uploader, {
 						message: msg,
@@ -58,6 +52,21 @@ module.exports = Backbone.View.extend({
 
 		return this;
 	},
+
+	// VS CODE ----------
+	getCurrentRowIndex: function() {
+        const imageInputElement = this.el;
+        const nearestAcfRow = imageInputElement.closest('.acf-row');
+
+        if (nearestAcfRow) {
+            const parent = nearestAcfRow.parentElement;
+            const allAcfRows = Array.from(parent.querySelectorAll('.acf-row:not(.acf-clone)'));
+            return allAcfRows.indexOf(nearestAcfRow);
+        }
+        return -1;
+    },
+	// ---------------
+
 	render:function() {
 		$( this.uploader.render().el ).appendTo( this.el );
 
@@ -87,7 +96,6 @@ module.exports = Backbone.View.extend({
 		return this;
 	},
 	filesAdded: function( uploader, files ) {
-		//
 		this.total = files.length;
 		this.done = 0;
 		//_acfuploader
@@ -96,6 +104,13 @@ module.exports = Backbone.View.extend({
 	fileBeforeUpload: function( uploader, file ) {
 		this.addProgress();
 		this.progress.setLabel( _.escape(file.name) );
+
+		// VS CODE ------------
+		console.log('Uploader structure:', uploader);
+    	console.log('Current settings:', uploader.settings);
+        // file.acf_repeater_row_index = this.getCurrentRowIndex();
+    	uploader.settings.multipart_params._acf_repeater_row_index = this.getCurrentRowIndex();
+		// ----------------
 	},
 	fileUploadProgress:function( uploader, file ) {
 		this.addProgress();

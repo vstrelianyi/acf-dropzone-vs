@@ -26,7 +26,6 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
-.vscode
 *.swp
 
 # Dreamweaver added files
@@ -55,3 +54,7 @@ vendor/
 
 # phpcs
 phpcs-report.txt
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
